@@ -14,4 +14,15 @@ router.post('/users', async (req, res) => {
   }
 })
 
+router.get('/users', async (req, res) => {
+
+  try {
+    const users = await User.find({});
+    
+    res.status(200).send({users})
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 module.exports = router
