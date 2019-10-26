@@ -15,11 +15,25 @@ router.post('/users', async (req, res) => {
 })
 
 router.get('/users', async (req, res) => {
-
   try {
     const users = await User.find({});
     
     res.status(200).send({users})
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+router.delete('/user/:id', async (req, res) => {
+  const userId = req.params.id;
+  
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    
+    if (!user) {
+      return res.send(404).send();
+    }
+    res.send({user})
   } catch (e) {
     res.status(400).send(e)
   }
