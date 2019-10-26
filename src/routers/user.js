@@ -24,6 +24,29 @@ router.get('/users', async (req, res) => {
   }
 })
 
+router.patch('/users/:id', async (req, res) => {
+  const userId = req.params.id;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password'];
+  const updatesValid = updates.every((update) => allowedUpdates.includes(update));
+
+  if (!updatesValid) {
+    return res.status(400).send({error: 'Invalid updates'});
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true});
+
+    if (!user) {
+      return res.send(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 router.delete('/user/:id', async (req, res) => {
   const userId = req.params.id;
   
