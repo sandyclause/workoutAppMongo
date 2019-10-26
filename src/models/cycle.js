@@ -5,8 +5,13 @@ const CycleSchema = new mongoose.Schema({
   cycleName: {
     type: Date,
   },
-  email: {
+  completion: {
     type: Number,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+    ref: 'User'
   }
 }, {
   timestamps: true
