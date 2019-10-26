@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Cycle = require('../models/cycle')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -66,6 +67,17 @@ userSchema.methods.generateAuthToken = async function () {
   await user.save()
   
   return token
+}
+
+userSchema.methods.createCycles = async function () {
+  const user = this
+
+  for (i = 0; i < 4; i++) {
+    const cycle = new Cycle({
+      owner: user._id
+    })
+    await cycle.save();
+  }
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
