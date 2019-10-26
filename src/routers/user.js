@@ -24,6 +24,22 @@ router.get('/users', async (req, res) => {
   }
 })
 
+router.get('/users/:id', async (req, res) => {
+  const userId = req.params.id;
+  
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404).send()
+    }
+    
+    res.status(200).send(user)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 router.patch('/users/:id', async (req, res) => {
   const userId = req.params.id;
   const updates = Object.keys(req.body);
@@ -38,7 +54,7 @@ router.patch('/users/:id', async (req, res) => {
     const user = await User.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true});
 
     if (!user) {
-      return res.send(404).send();
+      return res.status(404).send();
     }
 
     res.send(user);
@@ -54,7 +70,7 @@ router.delete('/user/:id', async (req, res) => {
     const user = await User.findByIdAndDelete(userId);
     
     if (!user) {
-      return res.send(404).send();
+      return res.status(404).send();
     }
     res.send({user})
   } catch (e) {
