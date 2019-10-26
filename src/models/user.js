@@ -53,7 +53,6 @@ userSchema.methods.toJSON = function () {
 }
 
 userSchema.methods.generateAuthToken = async function () {
-  console.log('fired')
   const user = this
   const token = jwt.sign({ _id: user._id.toString() }, 'lolz')
 
