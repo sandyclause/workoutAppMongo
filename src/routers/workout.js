@@ -8,9 +8,7 @@ router.post('/workouts/:cycleId', auth, async (req, res) => {
   const cycleId = req.params.cycleId;
 
   const workout = new Workout({
-    workoutName: 'test',
-    score: 1,
-    workingWeight: 10,
+    ...req.body,
     cycleId,
   })
 
