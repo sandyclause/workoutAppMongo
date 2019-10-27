@@ -53,6 +53,9 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 })
 
 router.get('/users/me', auth, async (req, res) => {
+  const user = await User.findById(req.user._id)
+  await user.populate('cycles', '_id').execPopulate()
+  console.log(user.cycles)
   res.send(req.user)
 })
 

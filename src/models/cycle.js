@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
+const Workout = require('./workout')
 
-const CycleSchema = new mongoose.Schema({
+const cycleSchema = new mongoose.Schema({
   cycleName: {
     type: Date,
   },
@@ -12,12 +12,18 @@ const CycleSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     require: true,
     ref: 'User'
-  }
+  },
 }, {
   timestamps: true
 })
 
 
-const Cycle = mongoose.model('Cycle', CycleSchema)
+// cycleSchema.virtual('workouts', {
+//   ref: 'Workout',
+//   localField: '_id',
+//   foreignField: 'cycleId'
+// })
+
+const Cycle = mongoose.model('Cycle', cycleSchema)
 
 module.exports = Cycle
