@@ -27,6 +27,7 @@ cycleSchema.pre('save', async function(next) {
       workingWeight: 100,
       cycleId: cycle._id
     })
+    cycle.productId.push(workout._id)
     await workout.save();
   }
   next()
