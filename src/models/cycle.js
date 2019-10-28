@@ -17,12 +17,20 @@ const cycleSchema = new mongoose.Schema({
   timestamps: true
 })
 
+cycleSchema.pre('save', async function(next) {
+  const cycle = this
 
-// cycleSchema.virtual('workouts', {
-//   ref: 'Workout',
-//   localField: '_id',
-//   foreignField: 'cycleId'
-// })
+  for (i = 0; i < 4; i++) {
+    const workout = new Workout({
+      workoutName: 'test' + i,
+      score: 11,
+      workingWeight: 100,
+      cycleId: cycle._id
+    })
+    await workout.save();
+  }
+  next()
+})
 
 const Cycle = mongoose.model('Cycle', cycleSchema)
 
