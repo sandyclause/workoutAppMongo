@@ -33,6 +33,16 @@ const userSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  workoutTemplate: [{
+    name: {
+      type: String,
+      required: true,
+    },
+    startingWeight: {
+      type: Number,
+      required: true,
+    }
+  }],
   tokens: [{
     token: {
       type: String,
