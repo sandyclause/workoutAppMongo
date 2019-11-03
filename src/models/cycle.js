@@ -22,7 +22,6 @@ cycleSchema.pre('save', async function(next) {
   const User = require('./user')
 
   const cycle = this;
-  const cycleId = cycle._id;
   const userId = cycle.owner;
 
   const user = await User.findById(userId);
@@ -43,17 +42,6 @@ cycleSchema.pre('save', async function(next) {
     newWorkout.save();
   });
 
-
-  // for (i = 0; i < 4; i++) {
-  //   const workout = new Workout({
-  //     workoutName: 'test' + i,
-  //     score: 11,
-  //     workingWeight: 100,
-  //     cycleId: cycle._id
-  //   })
-  //   cycle.productId.push(workout._id)
-  //   await workout.save();
-  // }
   next();
 })
 

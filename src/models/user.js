@@ -3,6 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Cycle = require('../models/cycle')
+const Workout = require('./workout')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -113,6 +114,25 @@ userSchema.pre('save', async function(next) {
   }
 
   next()
+})
+
+userSchema.pre('remove', async function (next) {
+  
+  const Cyclex = require('../models/cycle')
+  const user = this;
+  const userId = user._id;
+  const cyclesInUser = await Cyclex.find({owner: userId});
+
+  try {
+    await cyclesInUser.forEach( async (cycle) => {
+      await Workout.deleteMany({cycleId: cycle._id})
+    })
+    console.log('fired2')
+    await Cycle.deleteMany({owner: userId});
+    next();
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 const User = mongoose.model('User', userSchema)
