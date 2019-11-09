@@ -32,6 +32,30 @@ router.get('/workouts/cycle/:cycleId', auth, async (req, res) => {
   }
 })
 
+router.patch('/workouts/:id', auth, async (req, res) => {
+  const workoutId = req.params.id;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['score'];
+  const updatesValid = updates.every((update) => allowedUpdates.includes(update));
+
+  if (!updatesValid) {
+    return res.status(400).send({error: 'Invalid updates'});
+  }
+
+  try {
+    const workout = await Workout.findById(workoutId);
+  
+    updates.forEach((update) => {
+      return workout[update] = req.body[update]
+    });
+
+    await workout.save();
+    res.send(workout);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+})
+
 router.delete('/workouts/:id', auth, async (req, res) => {
   const cycleId = req.params.id;
 
