@@ -13,41 +13,33 @@ const weekSchema = new mongoose.Schema({
     require: true,
     ref: 'Cycle'
   },
-  workoutId: [mongoose.Schema.Types.ObjectId]
 }, {
   timestamps: true
 })
 
-weekSchema.pre('save', async function(next) {
+weekSchema.post('save', async function(doc, next) {
   const Cycle = require('./cycle')
-  // const User = require('./user')
+  const User = require('./user')
 
   const week = this;
   const cycleId = week.cycleId;
   const parentCycle = await Cycle.findById(cycleId);
-  
-  console.log('--------------', parentCycle)
-  // const userId = parentCycle.owner;
+  const userId = parentCycle.owner;
+  const user = await User.findById(userId);
+  const workoutTemplate = user.workoutTemplate;
 
-  // console.log(userId)
-
-  // const user = await User.findById(userId);
-  // const workoutTemplate = user.workoutTemplate;
-
-
-  // workoutTemplate.forEach(workout => {
-  //   const workoutName = workout.name;
-  //   const startingWeight = workout.startingWeight;
+  workoutTemplate.forEach(workout => {
+    const workoutName = workout.name;
+    const startingWeight = workout.startingWeight;
     
-  //   const newWorkout = new Workout({
-  //     workoutName: workoutName,
-  //     score: -1,
-  //     workingWeight: startingWeight,
-  //     weekId: week._id
-  //   })
-  //   week.workoutId.push(newWorkout._id)
-  //   newWorkout.save();
-  // });
+    const newWorkout = new Workout({
+      workoutName: workoutName,
+      score: -1,
+      workingWeight: startingWeight,
+      weekId: week._id,
+    })
+    newWorkout.save();
+  });
 
   next();
 })

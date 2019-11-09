@@ -15,7 +15,7 @@ const workoutSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  cycleId: {
+  weekId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
   }
