@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
     startingWeight: {
       type: Number,
       required: true,
+    },
+    weightIncrement: {
+      type: Number,
+      default: 5,
     }
   }],
   tokens: [{
