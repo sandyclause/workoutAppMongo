@@ -46,8 +46,14 @@ const userSchema = new mongoose.Schema({
     weightIncrement: {
       type: Number,
       default: 5,
-    }
+    },
   }],
+  settings : {
+    weeksInCycle: {
+      type: Number,
+      default: 4,
+    }
+  },
   tokens: [{
     token: {
       type: String,
