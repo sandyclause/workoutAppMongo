@@ -30,7 +30,7 @@ cycleSchema.pre('save', async function(next) {
 
   for (i=0; i < weeksInCycle; i++) {
     const newWeek = new Week({
-      weekName: 'week'+i,
+      weekName: 'week'+(i+1),
       cycleId: cycle._id,
     });
     cycle.weeks.push(newWeek._id);
